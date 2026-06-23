@@ -6,7 +6,33 @@
 
   <title>Vendedor - YACTÚN Club</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=30" />
+
+<style id="pin-hotfix">
+  #pinInput {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 100% !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    position: static !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: 2px solid rgba(255,255,255,0.8) !important;
+    border-radius: 14px !important;
+    font-size: 1.15rem !important;
+    padding: 0 16px !important;
+    -webkit-text-security: disc;
+  }
+
+  #pinDisplay,
+  .pin-display,
+  .pin-pad {
+    display: none !important;
+  }
+</style>
 </head>
 <body>
   <main class="app">
@@ -27,7 +53,7 @@
       <input id="vendedorInput" type="text" value="Vendedor" autocomplete="off" />
 
       <label>PIN</label>
-      <input id="pinInput" class="pin-text" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese el PIN" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="yactun_pin_manual" value="" />
+      <input id="pinInput" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese el PIN" autocomplete="off" value="" style="display:block !important; visibility:visible !important; opacity:1 !important; pointer-events:auto !important; width:100% !important; min-height:52px !important; height:52px !important; padding:0 16px !important; border-radius:14px !important; font-size:1.15rem !important; background:#ffffff !important; color:#111111 !important; position:static !important; -webkit-text-security:disc;" />
 
       <button id="entrarBtn">Entrar</button>
 
@@ -80,8 +106,9 @@
   </main>
 
   <script src="assets/html5-qrcode.min.js"></script>
-  <script src="config.js"></script>
-  <script src="vendedor.js"></script>
+  <script src="config.js?v=30"></script>
+  <script src="vendedor.js?v=30"></script>
 </body>
 </html>
+
 
