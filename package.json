@@ -1,0 +1,23 @@
+{
+  "name": "programa_fidelizacion_yactun",
+  "version": "1.0.0",
+  "description": "Sistema simple de fidelización para un único comercio.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "qrcode": "^1.5.3"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.1",
+    "terser": "^5.48.0"
+  }
+}

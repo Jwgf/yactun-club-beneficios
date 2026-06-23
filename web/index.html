@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>YACTÚN Club de Beneficios</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+
+    <section class="card header-card">
+      <div class="logo-circle">🦊</div>
+      <h1>YACTÚN</h1>
+      <p>Club de Beneficios</p>
+    </section>
+
+    <section id="loadingBox" class="card">
+      <p>Cargando...</p>
+    </section>
+
+    <section id="registroBox" class="card hidden">
+      <h2>Gracias por elegirnos</h2>
+      <p class="muted">Completá tus datos para ingresar al Club de Beneficios.</p>
+
+      <label>Nombre</label>
+      <input id="nombreInput" type="text" placeholder="Tu nombre" autocomplete="name" />
+
+      <label>Celular</label>
+      <input id="celularInput" type="tel" placeholder="Tu celular" autocomplete="tel" />
+
+      <label>Email</label>
+      <input id="emailInput" type="email" placeholder="Tu email" autocomplete="email" />
+
+      <button id="registrarBtn">Ingresar al Club</button>
+
+      <p id="registroMsg" class="msg"></p>
+    </section>
+
+    <section id="credencialBox" class="card hidden">
+      <h2 id="saludoTxt">Hola</h2>
+      <p class="muted">Mostrá este código al vendedor</p>
+
+      <div id="qrBox" class="qr-box"></div>
+
+      <div class="codigo-box">
+        Código: <strong id="codigoTxt">------</strong>
+      </div>
+
+      <div class="puntos-box">
+        <div class="puntos-num">
+          <span id="puntosTxt">0</span>/<span id="metaTxt">5</span>
+        </div>
+        <div class="puntos-label">compras acumuladas</div>
+      </div>
+
+      <p id="premioTxt" class="premio hidden"></p>
+
+      <button id="actualizarBtn">Ya escaneado / Actualizar</button>
+      <button id="olvidarBtn" class="btn-secundario">Salir de este celular</button>
+
+      <p id="credencialMsg" class="msg"></p>
+    </section>
+
+    <section id="fiestaBox" class="fiesta hidden">
+      🎉
+    </section>
+
+  </main>
+
+  <script src="assets/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
