@@ -61,6 +61,7 @@
 
   buscarBtn.onclick = buscarCliente;
   sumarCompraBtn.onclick = sumarCompra;
+entregarPremioBtn.onclick = entregarPremio;
 
   codigoInput.addEventListener("keydown", function (ev) {
     if (ev.key === "Enter") {
@@ -203,6 +204,41 @@
     }
   }
 
+  async function entregarPremio() {
+    if (!clienteActual) {
+      setMsg(clienteMsg, "Primero buscá un cliente.", "error");
+      return;
+    }
+
+    entregarPremioBtn.disabled = true;
+    sumarCompraBtn.disabled = true;
+    setMsg(clienteMsg, "Marcando premio como entregado...", "");
+
+    try {
+      const data = await jsonp({
+        action: "entregarPremio",
+        codigo: clienteActual.codigo,
+        pin: vendedorPin,
+        vendedor: vendedorNombre
+      });
+
+      if (!data.ok) {
+        setMsg(clienteMsg, data.mensaje || "No se pudo entregar el premio.", "error");
+        return;
+      }
+
+      clienteActual = data.cliente;
+      renderCliente();
+
+      setMsg(clienteMsg, "Premio entregado correctamente.", "ok");
+    } catch (err) {
+      setMsg(clienteMsg, err.message, "error");
+    } finally {
+      entregarPremioBtn.disabled = false;
+      sumarCompraBtn.disabled = false;
+    }
+  }
+
   function renderCliente() {
     if (!clienteActual) return;
 
@@ -221,3 +257,4 @@
     }
   }
 });
+
