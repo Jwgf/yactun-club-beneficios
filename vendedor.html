@@ -36,7 +36,14 @@
 
     <section id="busquedaBox" class="card hidden">
       <h2>Buscar cliente</h2>
-      <p class="muted">Ingresá el código que aparece debajo del QR del cliente.</p>
+      <p class="muted">Escaneá el QR del cliente o ingresá el código manualmente.</p>
+
+      <button id="iniciarScannerBtn" class="btn-verde">Escanear QR</button>
+      <button id="detenerScannerBtn" class="btn-secundario hidden">Detener cámara</button>
+
+      <div id="scannerBox" class="scanner-box hidden">
+        <div id="qrReader"></div>
+      </div>
 
       <label>Código cliente</label>
       <input id="codigoInput" type="tel" placeholder="Ej: 123456" autocomplete="off" />
@@ -72,6 +79,7 @@
 
   </main>
 
+  <script src="assets/html5-qrcode.min.js"></script>
   <script src="config.js"></script>
   <script src="vendedor.js"></script>
 </body>
