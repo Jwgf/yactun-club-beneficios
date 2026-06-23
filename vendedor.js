@@ -160,7 +160,7 @@
       scanner = new Html5Qrcode("qrReader");
 
       await scanner.start(
-        { facingMode: "user" },
+        { facingMode: "environment" },
         {
           fps: 10,
           qrbox: { width: 240, height: 240 }
@@ -373,5 +373,6 @@
     }
   }
 });
+
 
 
