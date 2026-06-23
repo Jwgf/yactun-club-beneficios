@@ -377,3 +377,36 @@
 
 
 
+
+// YACTUN_RECUPERAR_PIN_SIMPLE
+(function () {
+  function recuperarPin() {
+    const pin = document.getElementById("pinInput");
+    if (!pin) return;
+
+    pin.type = "tel";
+    pin.value = "";
+    pin.placeholder = "Ingrese el PIN";
+    pin.autocomplete = "off";
+
+    pin.style.display = "block";
+    pin.style.visibility = "visible";
+    pin.style.opacity = "1";
+    pin.style.pointerEvents = "auto";
+    pin.style.width = "100%";
+    pin.style.minHeight = "52px";
+    pin.style.height = "52px";
+    pin.style.position = "static";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    recuperarPin();
+    setTimeout(recuperarPin, 300);
+    setTimeout(recuperarPin, 1000);
+  });
+
+  window.addEventListener("pageshow", function () {
+    recuperarPin();
+    setTimeout(recuperarPin, 300);
+  });
+})();
