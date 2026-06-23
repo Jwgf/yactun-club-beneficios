@@ -107,7 +107,7 @@ async function registrarCliente() {
   const email = emailInput.value.trim();
 
   if (!nombre || !celular || !email) {
-    setMsg(registroMsg, "CompletÃ¡ nombre, celular y email.", "error");
+    setMsg(registroMsg, "Complet\u00e1 nombre, celular y email.", "error");
     return;
   }
 
@@ -154,7 +154,7 @@ async function consultarCliente(ref) {
       localStorage.removeItem(LS_CLIENTE_ID);
       localStorage.removeItem(LS_CLIENTE_CODIGO);
       mostrarRegistro();
-      setMsg(registroMsg, "No encontramos tu registro. CargÃ¡ tus datos nuevamente.", "error");
+      setMsg(registroMsg, "No encontramos tu registro. Carg\u00e1 tus datos nuevamente.", "error");
       return;
     }
 
@@ -253,4 +253,5 @@ function mostrarFiesta() {
     fiestaBox.classList.add("hidden");
   }, 5000);
 }
+
 
