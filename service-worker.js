@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = "yactun-cache-v10";
+﻿const CACHE_NAME = "yactun-cache-v11";
 
 self.addEventListener("install", function (event) {
   self.skipWaiting();

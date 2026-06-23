@@ -35,15 +35,19 @@
     osc.type = tipo || "square";
     osc.frequency.value = freq;
 
-    gain.gain.setValueAtTime(0.0001, c.currentTime);
-    gain.gain.exponentialRampToValueAtTime(volumen, c.currentTime + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + duracionMs / 1000);
+    const t0 = c.currentTime;
+    const t1 = t0 + duracionMs / 1000;
+
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.linearRampToValueAtTime(volumen, t0 + 0.015);
+    gain.gain.setValueAtTime(volumen, Math.max(t0 + 0.02, t1 - 0.035));
+    gain.gain.exponentialRampToValueAtTime(0.0001, t1);
 
     osc.connect(gain);
     gain.connect(c.destination);
 
-    osc.start();
-    osc.stop(c.currentTime + duracionMs / 1000 + 0.03);
+    osc.start(t0);
+    osc.stop(t1 + 0.04);
   }
 
   function secuencia(lista) {
@@ -51,10 +55,10 @@
 
     lista.forEach(function (item) {
       setTimeout(function () {
-        tono(item.f, item.d, item.v || 0.22, item.t || "square");
+        tono(item.f, item.d, item.v || 0.75, item.t || "square");
       }, espera);
 
-      espera += item.d + (item.p || 45);
+      espera += item.d + (item.p || 55);
     });
   }
 
@@ -68,39 +72,39 @@
     unlock: unlock,
 
     tap: function () {
-      tono(760, 55, 0.20, "square");
+      tono(850, 110, 0.65, "square");
     },
 
     ok: function () {
-      vibrar(40);
+      vibrar(50);
       secuencia([
-        { f: 660, d: 90, v: 0.24 },
-        { f: 920, d: 120, v: 0.24 }
+        { f: 720, d: 130, v: 0.75 },
+        { f: 980, d: 170, v: 0.75 }
       ]);
     },
 
     scan: function () {
-      vibrar(35);
+      vibrar(45);
       secuencia([
-        { f: 1100, d: 70, v: 0.25 },
-        { f: 1450, d: 80, v: 0.25 }
+        { f: 1150, d: 110, v: 0.78 },
+        { f: 1500, d: 130, v: 0.78 }
       ]);
     },
 
     premio: function () {
-      vibrar([60, 40, 60]);
+      vibrar([70, 40, 70]);
       secuencia([
-        { f: 660, d: 100, v: 0.26 },
-        { f: 880, d: 120, v: 0.26 },
-        { f: 1180, d: 160, v: 0.26 }
+        { f: 660, d: 130, v: 0.78 },
+        { f: 880, d: 150, v: 0.78 },
+        { f: 1200, d: 220, v: 0.78 }
       ]);
     },
 
     error: function () {
-      vibrar(120);
+      vibrar(150);
       secuencia([
-        { f: 240, d: 170, v: 0.28 },
-        { f: 160, d: 220, v: 0.28 }
+        { f: 260, d: 220, v: 0.8 },
+        { f: 170, d: 260, v: 0.8 }
       ]);
     }
   };
