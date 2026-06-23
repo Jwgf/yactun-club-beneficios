@@ -14,6 +14,11 @@
   const buscarBtn = document.getElementById("buscarBtn");
   const busquedaMsg = document.getElementById("busquedaMsg");
 
+  const iniciarScannerBtn = document.getElementById("iniciarScannerBtn");
+  const detenerScannerBtn = document.getElementById("detenerScannerBtn");
+  const scannerBox = document.getElementById("scannerBox");
+  const qrReader = document.getElementById("qrReader");
+
   const clienteNombreTxt = document.getElementById("clienteNombreTxt");
   const clienteCodigoTxt = document.getElementById("clienteCodigoTxt");
   const clientePuntosTxt = document.getElementById("clientePuntosTxt");
@@ -28,6 +33,9 @@
   let vendedorNombre = "Vendedor";
   let vendedorPin = "";
   let clienteActual = null;
+  let scanner = null;
+  let scannerActivo = false;
+
   let configActual = {
     meta: 5,
     premio: "250 g de mix especial"
@@ -55,13 +63,15 @@
     busquedaBox.classList.remove("hidden");
     clienteBox.classList.add("hidden");
 
-    setMsg(busquedaMsg, "Ingresá el código del cliente.", "");
+    setMsg(busquedaMsg, "Escaneá el QR o ingresá el código del cliente.", "");
     codigoInput.focus();
   };
 
   buscarBtn.onclick = buscarCliente;
   sumarCompraBtn.onclick = sumarCompra;
-entregarPremioBtn.onclick = entregarPremio;
+  entregarPremioBtn.onclick = entregarPremio;
+  iniciarScannerBtn.onclick = iniciarScanner;
+  detenerScannerBtn.onclick = detenerScanner;
 
   codigoInput.addEventListener("keydown", function (ev) {
     if (ev.key === "Enter") {
@@ -69,13 +79,18 @@ entregarPremioBtn.onclick = entregarPremio;
     }
   });
 
-  otroClienteBtn.onclick = function () {
+  otroClienteBtn.onclick = async function () {
+    await detenerScanner();
+
     clienteActual = null;
     codigoInput.value = "";
+
     clienteBox.classList.add("hidden");
     busquedaBox.classList.remove("hidden");
-    setMsg(busquedaMsg, "Ingresá el código del cliente.", "");
+
+    setMsg(busquedaMsg, "Escaneá el QR o ingresá el código del cliente.", "");
     setMsg(clienteMsg, "", "");
+
     codigoInput.focus();
   };
 
@@ -125,6 +140,107 @@ entregarPremioBtn.onclick = entregarPremio;
 
       document.body.appendChild(script);
     });
+  }
+
+  async function iniciarScanner() {
+    if (scannerActivo) return;
+
+    if (typeof Html5Qrcode === "undefined") {
+      setMsg(busquedaMsg, "No se cargó la librería del lector QR.", "error");
+      return;
+    }
+
+    scannerBox.classList.remove("hidden");
+    iniciarScannerBtn.classList.add("hidden");
+    detenerScannerBtn.classList.remove("hidden");
+
+    setMsg(busquedaMsg, "Iniciando cámara...", "");
+
+    try {
+      scanner = new Html5Qrcode("qrReader");
+
+      await scanner.start(
+        { facingMode: "environment" },
+        {
+          fps: 10,
+          qrbox: { width: 240, height: 240 }
+        },
+        async function (decodedText) {
+          const codigo = extraerCodigoDesdeQR(decodedText);
+
+          if (!codigo) {
+            setMsg(busquedaMsg, "QR no reconocido.", "error");
+            return;
+          }
+
+          codigoInput.value = codigo;
+          setMsg(busquedaMsg, "QR leído. Consultando cliente...", "ok");
+
+          await detenerScanner();
+          buscarCliente();
+        },
+        function () {
+          // Errores de lectura cuadro a cuadro: se ignoran.
+        }
+      );
+
+      scannerActivo = true;
+      setMsg(busquedaMsg, "Apuntá la cámara al QR del cliente.", "");
+    } catch (err) {
+      scannerActivo = false;
+      scannerBox.classList.add("hidden");
+      iniciarScannerBtn.classList.remove("hidden");
+      detenerScannerBtn.classList.add("hidden");
+
+      setMsg(busquedaMsg, "No se pudo iniciar la cámara: " + (err && err.message ? err.message : String(err)), "error");
+    }
+  }
+
+  async function detenerScanner() {
+    if (!scanner || !scannerActivo) {
+      scannerBox.classList.add("hidden");
+      iniciarScannerBtn.classList.remove("hidden");
+      detenerScannerBtn.classList.add("hidden");
+      return;
+    }
+
+    try {
+      await scanner.stop();
+      scanner.clear();
+    } catch (err) {
+      // No hacemos nada.
+    }
+
+    scanner = null;
+    scannerActivo = false;
+
+    scannerBox.classList.add("hidden");
+    iniciarScannerBtn.classList.remove("hidden");
+    detenerScannerBtn.classList.add("hidden");
+  }
+
+  function extraerCodigoDesdeQR(texto) {
+    const limpio = String(texto || "").trim();
+
+    try {
+      const obj = JSON.parse(limpio);
+
+      if (obj && obj.tipo === "YACTUN_CLIENTE" && obj.codigo) {
+        return String(obj.codigo).trim();
+      }
+
+      if (obj && obj.codigo) {
+        return String(obj.codigo).trim();
+      }
+    } catch (err) {
+      // Si no es JSON, probamos como código directo.
+    }
+
+    if (/^[0-9]{4,10}$/.test(limpio)) {
+      return limpio;
+    }
+
+    return "";
   }
 
   async function buscarCliente() {

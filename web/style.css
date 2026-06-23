@@ -251,3 +251,19 @@ button:disabled {
 .btn-verde:active {
   background: #176b3a;
 }
+
+/* Scanner QR vendedor */
+
+.scanner-box {
+  margin-top: 16px;
+  padding: 10px;
+  border: 1px solid var(--borde);
+  border-radius: 18px;
+  background: #fff8e8;
+}
+
+#qrReader {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+}
