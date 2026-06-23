@@ -42,29 +42,54 @@
   };
 
   vendedorInput.value = localStorage.getItem("yactun_vendedor_nombre") || "Vendedor";
-  pinInput.value = localStorage.getItem("yactun_vendedor_pin") || "";
+  localStorage.removeItem("yactun_vendedor_pin");
+  pinInput.value = "";
 
   loginMsg.textContent = "Pantalla vendedor lista.";
   loginMsg.classList.add("ok");
 
-  entrarBtn.onclick = function () {
+  entrarBtn.onclick = async function () {
     vendedorNombre = vendedorInput.value.trim() || "Vendedor";
     vendedorPin = pinInput.value.trim();
 
     if (!vendedorPin) {
       setMsg(loginMsg, "Ingresá el PIN vendedor.", "error");
+      pinInput.focus();
       return;
     }
 
-    localStorage.setItem("yactun_vendedor_nombre", vendedorNombre);
-    localStorage.setItem("yactun_vendedor_pin", vendedorPin);
+    try {
+      entrarBtn.disabled = true;
+      setMsg(loginMsg, "Validando PIN...", "");
 
-    loginBox.classList.add("hidden");
-    busquedaBox.classList.remove("hidden");
-    clienteBox.classList.add("hidden");
+      const data = await llamarApi({
+        action: "validarPin",
+        pin: vendedorPin
+      });
 
-    setMsg(busquedaMsg, "Escaneá el QR o ingresá el código del cliente.", "");
-    codigoInput.focus();
+      if (!data.ok) {
+        vendedorPin = "";
+        pinInput.value = "";
+        setMsg(loginMsg, data.mensaje || "PIN incorrecto.", "error");
+        pinInput.focus();
+        return;
+      }
+
+      localStorage.setItem("yactun_vendedor_nombre", vendedorNombre);
+      localStorage.removeItem("yactun_vendedor_pin");
+
+      loginBox.classList.add("hidden");
+      busquedaBox.classList.remove("hidden");
+      clienteBox.classList.add("hidden");
+
+      setMsg(busquedaMsg, "Escaneá el QR o ingresá el código del cliente.", "");
+      codigoInput.focus();
+
+    } catch (err) {
+      setMsg(loginMsg, err.message || "No se pudo validar el PIN.", "error");
+    } finally {
+      entrarBtn.disabled = false;
+    }
   };
 
   buscarBtn.onclick = buscarCliente;
@@ -410,3 +435,4 @@
     setTimeout(recuperarPin, 300);
   });
 })();
+
