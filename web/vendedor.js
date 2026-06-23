@@ -376,3 +376,24 @@
 
 
 
+
+// YACTUN_PIN_AUTOFILL_FIX
+(function () {
+  function limpiarPin() {
+    const pin = document.getElementById("pinInput");
+    if (!pin) return;
+
+    pin.setAttribute("autocomplete", "new-password");
+    pin.value = "";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    limpiarPin();
+    setTimeout(limpiarPin, 300);
+  });
+
+  window.addEventListener("pageshow", function () {
+    limpiarPin();
+    setTimeout(limpiarPin, 300);
+  });
+})();

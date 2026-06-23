@@ -43,7 +43,7 @@
     gain.connect(c.destination);
 
     osc.start();
-    osc.stop(c.currentTime + duracionMs / 1000 + 0.02);
+    osc.stop(c.currentTime + duracionMs / 1000 + 0.03);
   }
 
   function secuencia(lista) {
@@ -51,7 +51,7 @@
 
     lista.forEach(function (item) {
       setTimeout(function () {
-        tono(item.f, item.d, item.v || 0.035);
+        tono(item.f, item.d, item.v || 0.09);
       }, espera);
 
       espera += item.d + (item.p || 35);
@@ -62,35 +62,35 @@
     unlock: unlock,
 
     tap: function () {
-      tono(620, 35, 0.018);
+      tono(720, 45, 0.06);
     },
 
     ok: function () {
       secuencia([
-        { f: 660, d: 70, v: 0.028 },
-        { f: 880, d: 90, v: 0.028 }
+        { f: 660, d: 80, v: 0.085 },
+        { f: 880, d: 110, v: 0.085 }
       ]);
     },
 
     scan: function () {
       secuencia([
-        { f: 980, d: 45, v: 0.025 },
-        { f: 1280, d: 55, v: 0.025 }
+        { f: 980, d: 55, v: 0.085 },
+        { f: 1280, d: 70, v: 0.085 }
       ]);
     },
 
     premio: function () {
       secuencia([
-        { f: 660, d: 80, v: 0.03 },
-        { f: 880, d: 90, v: 0.03 },
-        { f: 1180, d: 120, v: 0.03 }
+        { f: 660, d: 90, v: 0.095 },
+        { f: 880, d: 100, v: 0.095 },
+        { f: 1180, d: 140, v: 0.095 }
       ]);
     },
 
     error: function () {
       secuencia([
-        { f: 220, d: 120, v: 0.03 },
-        { f: 160, d: 160, v: 0.03 }
+        { f: 220, d: 140, v: 0.09 },
+        { f: 160, d: 180, v: 0.09 }
       ]);
     }
   };
