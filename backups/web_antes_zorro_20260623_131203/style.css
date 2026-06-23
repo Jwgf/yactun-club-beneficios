@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --fondo: #fff3d8;
   --card: #ffffff;
   --texto: #3b2415;
@@ -46,25 +46,23 @@ body {
   background: linear-gradient(180deg, #fff8e9, #ffffff);
 }
 
-.logo-wrap {
-  margin: 0 auto 8px auto;
+.logo-circle {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.logo-zorro {
-  width: 150px;
-  max-width: 100%;
-  height: auto;
-  display: block;
+  background: #ffe1a8;
+  font-size: 44px;
+  border: 3px solid #f0b15b;
 }
 
 h1 {
   margin: 0;
   font-size: 34px;
   letter-spacing: 2px;
-  color: var(--naranja);
 }
 
 h2 {

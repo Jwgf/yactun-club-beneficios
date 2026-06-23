@@ -1,4 +1,4 @@
-const LS_CLIENTE_ID = "yactun_cliente_id";
+﻿const LS_CLIENTE_ID = "yactun_cliente_id";
 const LS_CLIENTE_CODIGO = "yactun_cliente_codigo";
 
 const API_URL = YACTUN_CONFIG.API_URL;
@@ -203,6 +203,14 @@ function guardarClienteLocal(cliente) {
   localStorage.setItem(LS_CLIENTE_CODIGO, cliente.codigo);
 }
 
+function olvidarClienteLocal() {
+  localStorage.removeItem(LS_CLIENTE_ID);
+  localStorage.removeItem(LS_CLIENTE_CODIGO);
+  clienteActual = null;
+  qrBox.innerHTML = "";
+  mostrarRegistro();
+}
+
 function renderCliente(cliente, config) {
   configActual = config || configActual;
 
@@ -253,3 +261,4 @@ function mostrarFiesta() {
     fiestaBox.classList.add("hidden");
   }, 5000);
 }
+
