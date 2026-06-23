@@ -27,7 +27,23 @@
       <input id="vendedorInput" type="text" value="Vendedor" autocomplete="off" />
 
       <label>PIN</label>
-      <input id="pinInput" class="pin-masked" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese el PIN" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="yactun_pin_vendedor" value="" />
+      <input id="pinInput" type="hidden" value="" autocomplete="off" />
+<div id="pinDisplay" class="pin-display pin-empty">Ingrese el PIN</div>
+
+<div class="pin-pad" aria-label="Teclado PIN">
+  <button type="button" data-pin-key="1">1</button>
+  <button type="button" data-pin-key="2">2</button>
+  <button type="button" data-pin-key="3">3</button>
+  <button type="button" data-pin-key="4">4</button>
+  <button type="button" data-pin-key="5">5</button>
+  <button type="button" data-pin-key="6">6</button>
+  <button type="button" data-pin-key="7">7</button>
+  <button type="button" data-pin-key="8">8</button>
+  <button type="button" data-pin-key="9">9</button>
+  <button type="button" id="pinClear">Borrar</button>
+  <button type="button" data-pin-key="0">0</button>
+  <button type="button" id="pinBack">⌫</button>
+</div>
 
       <button id="entrarBtn">Entrar</button>
 
@@ -85,6 +101,7 @@
   <script src="vendedor.js"></script>
 </body>
 </html>
+
 
 
 

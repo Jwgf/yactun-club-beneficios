@@ -377,50 +377,5 @@
 
 
 
-// YACTUN_PIN_AUTOFILL_FIX
-(function () {
-  function limpiarPin() {
-    const pin = document.getElementById("pinInput");
-    if (!pin) return;
 
-    pin.setAttribute("autocomplete", "new-password");
-    pin.value = "";
-  }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    limpiarPin();
-    setTimeout(limpiarPin, 300);
-  });
-
-  window.addEventListener("pageshow", function () {
-    limpiarPin();
-    setTimeout(limpiarPin, 300);
-  });
-})();
-
-// YACTUN_PIN_FORCE_EMPTY_V2
-(function () {
-  function limpiarPinFuerte() {
-    const pin = document.getElementById("pinInput");
-    if (!pin) return;
-
-    pin.type = "tel";
-    pin.name = "yactun_pin_vendedor";
-    pin.autocomplete = "off";
-    pin.setAttribute("inputmode", "numeric");
-    pin.setAttribute("placeholder", "Ingrese el PIN");
-    pin.value = "";
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    limpiarPinFuerte();
-    setTimeout(limpiarPinFuerte, 100);
-    setTimeout(limpiarPinFuerte, 500);
-    setTimeout(limpiarPinFuerte, 1000);
-  });
-
-  window.addEventListener("pageshow", function () {
-    limpiarPinFuerte();
-    setTimeout(limpiarPinFuerte, 300);
-  });
-})();
