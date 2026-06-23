@@ -1,4 +1,4 @@
-const LS_CLIENTE_ID = "yactun_cliente_id";
+﻿const LS_CLIENTE_ID = "yactun_cliente_id";
 const LS_CLIENTE_CODIGO = "yactun_cliente_codigo";
 
 const API_URL = YACTUN_CONFIG.API_URL;
@@ -79,7 +79,7 @@ function jsonp(params) {
     const timeout = setTimeout(() => {
       cleanup();
       reject(new Error("Tiempo de espera agotado"));
-    }, 15000);
+    }, 30000);
 
     window[callbackName] = (data) => {
       cleanup();
@@ -107,7 +107,7 @@ async function registrarCliente() {
   const email = emailInput.value.trim();
 
   if (!nombre || !celular || !email) {
-    setMsg(registroMsg, "Completá nombre, celular y email.", "error");
+    setMsg(registroMsg, "CompletÃ¡ nombre, celular y email.", "error");
     return;
   }
 
@@ -154,7 +154,7 @@ async function consultarCliente(ref) {
       localStorage.removeItem(LS_CLIENTE_ID);
       localStorage.removeItem(LS_CLIENTE_CODIGO);
       mostrarRegistro();
-      setMsg(registroMsg, "No encontramos tu registro. Cargá tus datos nuevamente.", "error");
+      setMsg(registroMsg, "No encontramos tu registro. CargÃ¡ tus datos nuevamente.", "error");
       return;
     }
 
@@ -214,7 +214,7 @@ function renderCliente(cliente, config) {
   generarQR(cliente);
 
   if (cliente.premiosPendientes > 0) {
-    premioTxt.textContent = "🎁 ¡Felicitaciones! Tenés un premio pendiente: " + (configActual.premio || "");
+    premioTxt.textContent = "ðŸŽ Â¡Felicitaciones! TenÃ©s un premio pendiente: " + (configActual.premio || "");
     premioTxt.classList.remove("hidden");
     mostrarFiesta();
   } else {
@@ -253,3 +253,4 @@ function mostrarFiesta() {
     fiestaBox.classList.add("hidden");
   }, 5000);
 }
+
