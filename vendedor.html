@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Vendedor - YACTÚN Club</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+
+    <section class="card header-card">
+      <div class="logo-wrap">
+        <img src="assets/logo-zorro-yactun.png" alt="Logo YACTÚN" class="logo-zorro" />
+      </div>
+      <h1>YACTÚN</h1>
+      <p>Panel vendedor</p>
+    </section>
+
+    <section id="loginBox" class="card">
+      <h2>Ingreso vendedor</h2>
+      <p class="muted">Ingresá el PIN para registrar compras.</p>
+
+      <label>Nombre vendedor</label>
+      <input id="vendedorInput" type="text" value="Vendedor" autocomplete="off" />
+
+      <label>PIN</label>
+      <input id="pinInput" type="password" placeholder="PIN vendedor" autocomplete="off" />
+
+      <button id="entrarBtn">Entrar</button>
+
+      <p id="loginMsg" class="msg"></p>
+    </section>
+
+    <section id="busquedaBox" class="card hidden">
+      <h2>Buscar cliente</h2>
+      <p class="muted">Ingresá el código que aparece debajo del QR del cliente.</p>
+
+      <label>Código cliente</label>
+      <input id="codigoInput" type="tel" placeholder="Ej: 123456" autocomplete="off" />
+
+      <button id="buscarBtn">Consultar cliente</button>
+
+      <p id="busquedaMsg" class="msg"></p>
+    </section>
+
+    <section id="clienteBox" class="card hidden">
+      <h2 id="clienteNombreTxt">Cliente</h2>
+
+      <div class="dato-linea">
+        <span>Código</span>
+        <strong id="clienteCodigoTxt">------</strong>
+      </div>
+
+      <div class="puntos-box vendedor-puntos">
+        <div class="puntos-num">
+          <span id="clientePuntosTxt">0</span>/<span id="clienteMetaTxt">5</span>
+        </div>
+        <div class="puntos-label">compras acumuladas</div>
+      </div>
+
+      <p id="premioPendienteTxt" class="premio hidden"></p>
+
+      <button id="sumarCompraBtn">Confirmar compra</button>
+      <button id="entregarPremioBtn" class="btn-verde hidden">Marcar premio entregado</button>
+      <button id="otroClienteBtn" class="btn-secundario">Buscar otro cliente</button>
+
+      <p id="clienteMsg" class="msg"></p>
+    </section>
+
+  </main>
+
+  <script src="config.js"></script>
+  <script src="vendedor.js"></script>
+</body>
+</html>

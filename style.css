@@ -220,3 +220,34 @@ button:disabled {
     opacity: 1;
   }
 }
+
+/* Pantalla vendedor */
+
+.dato-linea {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--borde);
+  font-size: 18px;
+}
+
+.dato-linea span {
+  color: var(--muted);
+}
+
+.dato-linea strong {
+  color: var(--texto);
+}
+
+.vendedor-puntos {
+  margin-top: 18px;
+}
+
+.btn-verde {
+  background: var(--verde);
+}
+
+.btn-verde:active {
+  background: #176b3a;
+}
