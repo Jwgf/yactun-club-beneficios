@@ -27,7 +27,7 @@
       <input id="vendedorInput" type="text" value="Vendedor" autocomplete="off" />
 
       <label>PIN</label>
-      <input id="pinInput" type="password" placeholder="PIN vendedor" autocomplete="new-password" inputmode="numeric" value="" />
+      <input id="pinInput" class="pin-masked" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese el PIN" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="yactun_pin_vendedor" value="" />
 
       <button id="entrarBtn">Entrar</button>
 
@@ -85,6 +85,7 @@
   <script src="vendedor.js"></script>
 </body>
 </html>
+
 
 
 

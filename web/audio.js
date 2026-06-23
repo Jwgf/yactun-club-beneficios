@@ -25,14 +25,14 @@
     habilitado = true;
   }
 
-  function tono(freq, duracionMs, volumen) {
+  function tono(freq, duracionMs, volumen, tipo) {
     const c = crearContexto();
     if (!c || !habilitado) return;
 
     const osc = c.createOscillator();
     const gain = c.createGain();
 
-    osc.type = "sine";
+    osc.type = tipo || "square";
     osc.frequency.value = freq;
 
     gain.gain.setValueAtTime(0.0001, c.currentTime);
@@ -51,46 +51,56 @@
 
     lista.forEach(function (item) {
       setTimeout(function () {
-        tono(item.f, item.d, item.v || 0.09);
+        tono(item.f, item.d, item.v || 0.22, item.t || "square");
       }, espera);
 
-      espera += item.d + (item.p || 35);
+      espera += item.d + (item.p || 45);
     });
+  }
+
+  function vibrar(ms) {
+    if (navigator.vibrate) {
+      navigator.vibrate(ms);
+    }
   }
 
   const YactunAudio = {
     unlock: unlock,
 
     tap: function () {
-      tono(720, 45, 0.06);
+      tono(760, 55, 0.20, "square");
     },
 
     ok: function () {
+      vibrar(40);
       secuencia([
-        { f: 660, d: 80, v: 0.085 },
-        { f: 880, d: 110, v: 0.085 }
+        { f: 660, d: 90, v: 0.24 },
+        { f: 920, d: 120, v: 0.24 }
       ]);
     },
 
     scan: function () {
+      vibrar(35);
       secuencia([
-        { f: 980, d: 55, v: 0.085 },
-        { f: 1280, d: 70, v: 0.085 }
+        { f: 1100, d: 70, v: 0.25 },
+        { f: 1450, d: 80, v: 0.25 }
       ]);
     },
 
     premio: function () {
+      vibrar([60, 40, 60]);
       secuencia([
-        { f: 660, d: 90, v: 0.095 },
-        { f: 880, d: 100, v: 0.095 },
-        { f: 1180, d: 140, v: 0.095 }
+        { f: 660, d: 100, v: 0.26 },
+        { f: 880, d: 120, v: 0.26 },
+        { f: 1180, d: 160, v: 0.26 }
       ]);
     },
 
     error: function () {
+      vibrar(120);
       secuencia([
-        { f: 220, d: 140, v: 0.09 },
-        { f: 160, d: 180, v: 0.09 }
+        { f: 240, d: 170, v: 0.28 },
+        { f: 160, d: 220, v: 0.28 }
       ]);
     }
   };
