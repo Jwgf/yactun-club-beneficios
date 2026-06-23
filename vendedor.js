@@ -62,7 +62,7 @@
       entrarBtn.disabled = true;
       setMsg(loginMsg, "Validando PIN...", "");
 
-      const data = await llamarApi({
+      const data = await jsonp({
         action: "validarPin",
         pin: vendedorPin
       });
@@ -435,4 +435,5 @@
     setTimeout(recuperarPin, 300);
   });
 })();
+
 
