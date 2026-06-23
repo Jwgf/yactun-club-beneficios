@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --fondo: #fff3d8;
   --card: #ffffff;
   --texto: #3b2415;
@@ -266,4 +266,8 @@ button:disabled {
   width: 100%;
   overflow: hidden;
   border-radius: 14px;
+}
+
+.pin-text {
+  -webkit-text-security: disc;
 }
