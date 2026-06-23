@@ -63,6 +63,8 @@ function manejarRequest_(e) {
       data = apiPing_();
     } else if (action === "config") {
       data = apiConfig_();
+    } else if (action === "validarPin") {
+      data = apiValidarPin_(p);
     } else if (action === "registrarCliente") {
       data = apiRegistrarCliente_(p);
     } else if (action === "consultarCliente") {
@@ -131,6 +133,35 @@ function apiConfig_() {
       premio: config.premio || "250 g de mix especial",
       bloqueoMinutos: numero_(config.bloqueoMinutos, 10),
     },
+  };
+}
+
+
+function apiValidarPin_(p) {
+  const pin = limpiarTexto_(p.pin);
+
+  if (!pin) {
+    return {
+      ok: false,
+      error: "PIN_REQUERIDO",
+      mensaje: "Ingresá el PIN vendedor",
+    };
+  }
+
+  const config = leerConfig_();
+  const pinVendedor = String(config.pinVendedor || "1234").trim();
+
+  if (pin !== pinVendedor) {
+    return {
+      ok: false,
+      error: "PIN_INVALIDO",
+      mensaje: "PIN de vendedor incorrecto",
+    };
+  }
+
+  return {
+    ok: true,
+    mensaje: "PIN correcto",
   };
 }
 
@@ -731,3 +762,4 @@ function responder_(data, callback) {
     .createTextOutput(json)
     .setMimeType(ContentService.MimeType.JSON);
 }
+
