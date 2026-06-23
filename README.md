@@ -26,3 +26,14 @@ Al llegar a la meta configurada, el cliente gana un premio.
 ## Estado del proyecto
 
 Estructura inicial creada.
+
+## API Apps Script
+
+URL activa de la API:
+
+https://script.google.com/macros/s/AKfycbxRJzCyFnEHYzqs0JGGejlcP9mpzJvjj12SZFpRgI_IeAH163caGr4ZEO_hu3gjotocVg/exec
+
+Pruebas:
+
+?action=ping
+?action=config
