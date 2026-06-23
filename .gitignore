@@ -1,0 +1,14 @@
+﻿# Sistema
+.DS_Store
+Thumbs.db
+
+# Backups temporales
+*.bak
+*.tmp
+
+# Archivos locales
+.env
+config.local.js
+
+# VS Code
+.vscode/

@@ -1,0 +1,33 @@
+﻿PROGRAMA DE FIDELIZACION YACTUN
+
+Decisiones iniciales:
+- No usar Firebase.
+- Usar GitHub Pages para la web.
+- Usar Google Apps Script como servidor.
+- Usar Google Sheets como base de datos.
+- Sistema para un único comercio.
+- Un único vendedor.
+- Meta inicial: 5 compras = 1 premio.
+- El cliente no puede sumarse puntos solo.
+- La suma de puntos solo la hace el vendedor desde su pantalla.
+
+Flujo cliente:
+1. Escanea QR del comercio.
+2. Se registra con nombre, celular y email.
+3. Recibe su credencial con QR personal.
+4. Muestra la credencial al vendedor.
+
+Flujo vendedor:
+1. Abre pantalla de vendedor.
+2. Ingresa PIN.
+3. Escanea QR del cliente.
+4. Confirma compra.
+5. El sistema suma 1 punto.
+6. Si llega a la meta, se genera premio.
+
+Pendiente:
+- Crear Google Sheet.
+- Crear Apps Script.
+- Programar API inicial.
+- Programar pantalla cliente.
+- Programar pantalla vendedor.
