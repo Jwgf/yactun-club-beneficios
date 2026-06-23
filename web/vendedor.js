@@ -60,6 +60,7 @@
   };
 
   buscarBtn.onclick = buscarCliente;
+  sumarCompraBtn.onclick = sumarCompra;
 
   codigoInput.addEventListener("keydown", function (ev) {
     if (ev.key === "Enter") {
@@ -150,19 +151,7 @@
       clienteActual = data.cliente;
       configActual = data.config || configActual;
 
-      clienteNombreTxt.textContent = clienteActual.nombre || "Cliente";
-      clienteCodigoTxt.textContent = clienteActual.codigo || "------";
-      clientePuntosTxt.textContent = clienteActual.puntosActuales || 0;
-      clienteMetaTxt.textContent = configActual.meta || 5;
-
-      if ((clienteActual.premiosPendientes || 0) > 0) {
-        premioPendienteTxt.textContent = "🎁 Premio pendiente: " + (configActual.premio || "");
-        premioPendienteTxt.classList.remove("hidden");
-        entregarPremioBtn.classList.remove("hidden");
-      } else {
-        premioPendienteTxt.classList.add("hidden");
-        entregarPremioBtn.classList.add("hidden");
-      }
+      renderCliente();
 
       busquedaBox.classList.add("hidden");
       clienteBox.classList.remove("hidden");
@@ -172,6 +161,63 @@
       setMsg(busquedaMsg, err.message, "error");
     } finally {
       buscarBtn.disabled = false;
+    }
+  }
+
+  async function sumarCompra() {
+    if (!clienteActual) {
+      setMsg(clienteMsg, "Primero buscá un cliente.", "error");
+      return;
+    }
+
+    sumarCompraBtn.disabled = true;
+    entregarPremioBtn.disabled = true;
+    setMsg(clienteMsg, "Registrando compra...", "");
+
+    try {
+      const data = await jsonp({
+        action: "sumarCompra",
+        codigo: clienteActual.codigo,
+        pin: vendedorPin,
+        vendedor: vendedorNombre
+      });
+
+      if (!data.ok) {
+        setMsg(clienteMsg, data.mensaje || "No se pudo registrar la compra.", "error");
+        return;
+      }
+
+      clienteActual = data.cliente;
+      renderCliente();
+
+      if (data.ganoPremio) {
+        setMsg(clienteMsg, "🎉 Compra registrada. El cliente ganó premio: " + data.premio, "ok");
+      } else {
+        setMsg(clienteMsg, "Compra registrada correctamente.", "ok");
+      }
+    } catch (err) {
+      setMsg(clienteMsg, err.message, "error");
+    } finally {
+      sumarCompraBtn.disabled = false;
+      entregarPremioBtn.disabled = false;
+    }
+  }
+
+  function renderCliente() {
+    if (!clienteActual) return;
+
+    clienteNombreTxt.textContent = clienteActual.nombre || "Cliente";
+    clienteCodigoTxt.textContent = clienteActual.codigo || "------";
+    clientePuntosTxt.textContent = clienteActual.puntosActuales || 0;
+    clienteMetaTxt.textContent = configActual.meta || 5;
+
+    if ((clienteActual.premiosPendientes || 0) > 0) {
+      premioPendienteTxt.textContent = "🎁 Premio pendiente: " + (configActual.premio || "");
+      premioPendienteTxt.classList.remove("hidden");
+      entregarPremioBtn.classList.remove("hidden");
+    } else {
+      premioPendienteTxt.classList.add("hidden");
+      entregarPremioBtn.classList.add("hidden");
     }
   }
 });
