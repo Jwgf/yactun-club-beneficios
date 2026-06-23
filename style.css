@@ -267,3 +267,8 @@ button:disabled {
   overflow: hidden;
   border-radius: 14px;
 }
+
+.pin-masked {
+  -webkit-text-security: disc;
+  text-security: disc;
+}
