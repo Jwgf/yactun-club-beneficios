@@ -45,7 +45,7 @@
   localStorage.removeItem("yactun_vendedor_pin");
   pinInput.value = "";
 
-  loginMsg.textContent = "Pantalla vendedor v60 lista.";
+  loginMsg.textContent = "Pantalla vendedor lista.";
   loginMsg.classList.add("ok");
 
   entrarBtn.onclick = async function () {
@@ -435,6 +435,7 @@
     setTimeout(recuperarPin, 300);
   });
 })();
+
 
 
 
