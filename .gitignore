@@ -12,3 +12,6 @@ config.local.js
 
 # VS Code
 .vscode/
+
+# Apps Script local
+apps_script/.clasp.json
