@@ -1,4 +1,4 @@
-﻿const LS_CLIENTE_ID = "yactun_cliente_id";
+const LS_CLIENTE_ID = "yactun_cliente_id";
 const LS_CLIENTE_CODIGO = "yactun_cliente_codigo";
 
 const API_URL = YACTUN_CONFIG.API_URL;
@@ -21,7 +21,6 @@ const metaTxt = document.getElementById("metaTxt");
 const premioTxt = document.getElementById("premioTxt");
 const qrBox = document.getElementById("qrBox");
 const actualizarBtn = document.getElementById("actualizarBtn");
-const olvidarBtn = document.getElementById("olvidarBtn");
 const credencialMsg = document.getElementById("credencialMsg");
 
 let clienteActual = null;
@@ -33,7 +32,6 @@ let configActual = {
 document.addEventListener("DOMContentLoaded", iniciar);
 registrarBtn.addEventListener("click", registrarCliente);
 actualizarBtn.addEventListener("click", actualizarCliente);
-olvidarBtn.addEventListener("click", olvidarClienteLocal);
 
 function iniciar() {
   const clienteId = localStorage.getItem(LS_CLIENTE_ID);
@@ -203,14 +201,6 @@ async function actualizarCliente() {
 function guardarClienteLocal(cliente) {
   localStorage.setItem(LS_CLIENTE_ID, cliente.clienteId);
   localStorage.setItem(LS_CLIENTE_CODIGO, cliente.codigo);
-}
-
-function olvidarClienteLocal() {
-  localStorage.removeItem(LS_CLIENTE_ID);
-  localStorage.removeItem(LS_CLIENTE_CODIGO);
-  clienteActual = null;
-  qrBox.innerHTML = "";
-  mostrarRegistro();
 }
 
 function renderCliente(cliente, config) {
