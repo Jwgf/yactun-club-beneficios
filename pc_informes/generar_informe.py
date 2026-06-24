@@ -1,4 +1,4 @@
-﻿import argparse
+import argparse
 import json
 import sys
 from datetime import datetime
@@ -114,7 +114,7 @@ def crear_excel(data, periodo):
     ws_premios = wb.create_sheet("Premios")
     escribir_tabla(ws_premios, data.get("premios", []), premios_cols)
 
-    nombre = f"Yactun_Informe_SIMPLE_{periodo.replace('-', '_')}.xlsx"
+    nombre = f"Yactun_Informe_{periodo.replace('-', '_')}.xlsx"
     salida = OUT_DIR / nombre
 
     wb.save(salida)
