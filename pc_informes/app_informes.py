@@ -1,11 +1,11 @@
-﻿import threading
+import threading
 import tkinter as tk
 from tkinter import ttk, messagebox
 from pathlib import Path
 import os
 import sys
 
-from generar_informe import cargar_config, pedir_informe, crear_excel
+from generar_informe import cargar_config, pedir_informe, crear_excel, BASE_DIR
 
 
 MESES = [
@@ -169,7 +169,7 @@ class AppInformes(tk.Tk):
             messagebox.showwarning("Atención", "Todavía no hay archivo generado.")
 
     def abrir_carpeta(self):
-        carpeta = Path(__file__).resolve().parent.parent / "informes"
+        carpeta = BASE_DIR / "informes"
         carpeta.mkdir(parents=True, exist_ok=True)
         os.startfile(carpeta)
 

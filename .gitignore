@@ -38,3 +38,8 @@ informes/*.xlsx
 __pycache__/
 **/__pycache__/
 *.pyc
+
+# Compilacion EXE
+dist/
+build/
+*.spec

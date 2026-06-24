@@ -9,8 +9,13 @@ from urllib.request import urlopen
 from openpyxl import Workbook
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-CONFIG_PATH = BASE_DIR / "pc_informes" / "config.local.json"
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path(sys.executable).resolve().parent
+    CONFIG_PATH = BASE_DIR / "config.local.json"
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    CONFIG_PATH = BASE_DIR / "pc_informes" / "config.local.json"
+
 OUT_DIR = BASE_DIR / "informes"
 
 
