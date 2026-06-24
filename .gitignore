@@ -27,3 +27,9 @@ backups/*.zip
 
 # Archivos fuente locales
 /Logo yactun + zorro.jpeg
+
+# Config local informes
+pc_informes/config.local.json
+
+# Informes generados
+informes/*.xlsx
