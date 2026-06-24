@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Yactun Vendedor</title>
+
+  <link rel="manifest" href="manifest.json?v=1" />
+  <meta name="theme-color" content="#8b4a18" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/icon-zorro-big-180.png?v=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Yactun Vendedor" />
+  <link rel="stylesheet" href="style.css?v=60" />
+
+<style id="pin-hotfix">
+  #pinInput {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 100% !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    position: static !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    border: 2px solid rgba(255,255,255,0.8) !important;
+    border-radius: 14px !important;
+    font-size: 1.15rem !important;
+    padding: 0 16px !important;
+    -webkit-text-security: disc;
+  }
+
+  #pinDisplay,
+  .pin-display,
+  .pin-pad {
+    display: none !important;
+  }
+</style>
+</head>
+<body>
+  <main class="app">
+
+    <section class="card header-card">
+      <div class="logo-wrap">
+        <img src="../assets/logo-yactun-oficial.jpeg" alt="Logo YACTÚN" class="logo-zorro" />
+      </div>
+      <h1>YACTÚN</h1>
+      <p>Panel vendedor</p>
+    </section>
+
+    <section id="loginBox" class="card">
+      <h2>Ingreso vendedor</h2>
+      <p class="muted">Ingresá el PIN para registrar compras.</p>
+
+      <label>Nombre vendedor</label>
+      <input id="vendedorInput" type="text" value="Vendedor" autocomplete="off" />
+
+      <label>PIN</label>
+      <input id="pinInput" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="Ingrese el PIN" autocomplete="off" value="" style="display:block !important; visibility:visible !important; opacity:1 !important; pointer-events:auto !important; width:100% !important; min-height:52px !important; height:52px !important; padding:0 16px !important; border-radius:14px !important; font-size:1.15rem !important; background:#ffffff !important; color:#111111 !important; position:static !important; -webkit-text-security:disc;" />
+
+      <button id="entrarBtn">Entrar</button>
+
+      <p id="loginMsg" class="msg"></p>
+    </section>
+
+    <section id="busquedaBox" class="card hidden">
+      <h2>Buscar cliente</h2>
+      <p class="muted">Escaneá el QR del cliente o ingresá el código manualmente.</p>
+
+      <button id="iniciarScannerBtn" class="btn-verde">Escanear QR</button>
+      <button id="detenerScannerBtn" class="btn-secundario hidden">Detener cámara</button>
+
+      <div id="scannerBox" class="scanner-box hidden">
+        <div id="qrReader"></div>
+      </div>
+
+      <label>Código cliente</label>
+      <input id="codigoInput" type="tel" placeholder="Ej: 123456" autocomplete="off" />
+
+      <button id="buscarBtn">Consultar cliente</button>
+
+      <p id="busquedaMsg" class="msg"></p>
+    </section>
+
+    <section id="clienteBox" class="card hidden">
+      <h2 id="clienteNombreTxt">Cliente</h2>
+
+      <div class="dato-linea">
+        <span>Código</span>
+        <strong id="clienteCodigoTxt">------</strong>
+      </div>
+
+      <div class="puntos-box vendedor-puntos">
+        <div class="puntos-num">
+          <span id="clientePuntosTxt">0</span>/<span id="clienteMetaTxt">5</span>
+        </div>
+        <div class="puntos-label">compras acumuladas</div>
+      </div>
+
+      <p id="premioPendienteTxt" class="premio hidden"></p>
+
+      <button id="sumarCompraBtn">Confirmar compra</button>
+      <button id="entregarPremioBtn" class="btn-verde hidden">Marcar premio entregado</button>
+      <button id="otroClienteBtn" class="btn-secundario">Buscar otro cliente</button>
+
+      <p id="clienteMsg" class="msg"></p>
+    </section>
+
+  </main>
+
+  <script src="../assets/html5-qrcode.min.js"></script>
+  <script src="../config.js?v=60"></script>
+  <script src="audio_player.js?v=1"></script>
+  <script src="../vendedor_v61.js"></script>
+  <script src="pwa.js?v=1"></script>
+</body>
+</html>
+
+
+
+
+
+
+
