@@ -21,3 +21,9 @@ node_modules/
 
 # Node
 node_modules/
+
+# Backups locales
+backups/*.zip
+
+# Archivos fuente locales
+/Logo yactun + zorro.jpeg
