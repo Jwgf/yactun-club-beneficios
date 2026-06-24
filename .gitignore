@@ -33,3 +33,8 @@ pc_informes/config.local.json
 
 # Informes generados
 informes/*.xlsx
+
+# Cache Python
+__pycache__/
+**/__pycache__/
+*.pyc
