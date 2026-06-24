@@ -1,4 +1,4 @@
-﻿const SHEETS = {
+const SHEETS = {
   CLIENTES: "Clientes",
   MOVIMIENTOS: "Movimientos",
   PREMIOS: "Premios",
@@ -73,6 +73,8 @@ function manejarRequest_(e) {
       data = apiSumarCompra_(p);
     } else if (action === "entregarPremio") {
       data = apiEntregarPremio_(p);
+    } else if (action === "informeMensual") {
+      data = apiInformeMensual_(p);
     } else {
       data = {
         ok: false,
@@ -763,3 +765,222 @@ function responder_(data, callback) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+
+
+function apiInformeMensual_(p) {
+  const clave = String(p.clave || "").trim();
+  const periodo = String(p.periodo || p.mes || "").trim();
+
+  const config = leerConfig_();
+  const claveInforme = String(config.claveInforme || "").trim();
+
+  if (!claveInforme) {
+    return {
+      ok: false,
+      error: "CLAVE_INFORME_NO_CONFIGURADA",
+      mensaje: "Falta configurar claveInforme en la hoja Config",
+    };
+  }
+
+  if (!clave || clave !== claveInforme) {
+    return {
+      ok: false,
+      error: "CLAVE_INFORME_INVALIDA",
+      mensaje: "Clave de informe incorrecta",
+    };
+  }
+
+  const per = periodoInforme_(periodo);
+  if (!per.ok) {
+    return per;
+  }
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  const clientesTodos = leerHojaParaInforme_(ss, SHEETS.CLIENTES);
+  const movimientosTodos = leerHojaParaInforme_(ss, SHEETS.MOVIMIENTOS);
+  const premiosTodos = leerHojaParaInforme_(ss, SHEETS.PREMIOS);
+
+  const clientes = clientesTodos.filter(function (c) {
+    return fechaDentroPeriodoInforme_(c.fechaAlta, per.inicio, per.fin);
+  });
+
+  const movimientos = movimientosTodos.filter(function (m) {
+    return fechaDentroPeriodoInforme_(m.fecha, per.inicio, per.fin);
+  });
+
+  const premios = premiosTodos.filter(function (pr) {
+    return (
+      fechaDentroPeriodoInforme_(pr.fechaGanado, per.inicio, per.fin) ||
+      fechaDentroPeriodoInforme_(pr.fechaEntregado, per.inicio, per.fin)
+    );
+  });
+
+  const clientesActivos = {};
+  movimientos.forEach(function (m) {
+    if (m.clienteId) {
+      clientesActivos[String(m.clienteId)] = true;
+    }
+  });
+
+  const comprasRegistradas = movimientos.filter(function (m) {
+    return String(m.tipo || "").toUpperCase() === "COMPRA";
+  }).length;
+
+  const premiosGenerados = premiosTodos.filter(function (pr) {
+    return fechaDentroPeriodoInforme_(pr.fechaGanado, per.inicio, per.fin);
+  }).length;
+
+  const premiosEntregados = premiosTodos.filter(function (pr) {
+    return fechaDentroPeriodoInforme_(pr.fechaEntregado, per.inicio, per.fin);
+  }).length;
+
+  const premiosPendientesTotales = premiosTodos.filter(function (pr) {
+    return String(pr.estado || "").toUpperCase() === "PENDIENTE";
+  }).length;
+
+  return {
+    ok: true,
+    tipo: "informeMensual",
+    periodo: per.periodo,
+    generadoEn: fechaInforme_(new Date()),
+    resumen: {
+      clientesNuevos: clientes.length,
+      clientesActivosDelMes: Object.keys(clientesActivos).length,
+      movimientosDelMes: movimientos.length,
+      comprasRegistradas: comprasRegistradas,
+      premiosGenerados: premiosGenerados,
+      premiosEntregados: premiosEntregados,
+      premiosPendientesTotales: premiosPendientesTotales,
+    },
+    clientes: serializarListaInforme_(clientes),
+    movimientos: serializarListaInforme_(movimientos),
+    premios: serializarListaInforme_(premios),
+  };
+}
+
+function leerHojaParaInforme_(ss, nombreHoja) {
+  const sh = ss.getSheetByName(nombreHoja);
+  if (!sh) {
+    return [];
+  }
+
+  const values = sh.getDataRange().getValues();
+  if (!values || values.length < 2) {
+    return [];
+  }
+
+  const headers = values[0].map(function (h) {
+    return String(h || "").trim();
+  });
+
+  const out = [];
+
+  for (let r = 1; r < values.length; r++) {
+    const row = values[r];
+    const obj = {};
+    let tieneDatos = false;
+
+    for (let c = 0; c < headers.length; c++) {
+      const key = headers[c];
+      if (!key) {
+        continue;
+      }
+
+      obj[key] = row[c];
+
+      if (row[c] !== "" && row[c] !== null && typeof row[c] !== "undefined") {
+        tieneDatos = true;
+      }
+    }
+
+    if (tieneDatos) {
+      out.push(obj);
+    }
+  }
+
+  return out;
+}
+
+function periodoInforme_(periodo) {
+  const txt = String(periodo || "").trim();
+  const m = txt.match(/^(\d{4})-(\d{2})$/);
+
+  if (!m) {
+    return {
+      ok: false,
+      error: "PERIODO_INVALIDO",
+      mensaje: "El período debe tener formato YYYY-MM. Ejemplo: 2026-06",
+    };
+  }
+
+  const anio = Number(m[1]);
+  const mes = Number(m[2]);
+
+  if (mes < 1 || mes > 12) {
+    return {
+      ok: false,
+      error: "MES_INVALIDO",
+      mensaje: "El mes debe estar entre 01 y 12",
+    };
+  }
+
+  return {
+    ok: true,
+    periodo: txt,
+    inicio: new Date(anio, mes - 1, 1, 0, 0, 0),
+    fin: new Date(anio, mes, 1, 0, 0, 0),
+  };
+}
+
+function fechaDentroPeriodoInforme_(valor, inicio, fin) {
+  const f = convertirFechaInforme_(valor);
+  if (!f) {
+    return false;
+  }
+
+  return f >= inicio && f < fin;
+}
+
+function convertirFechaInforme_(valor) {
+  if (!valor) {
+    return null;
+  }
+
+  if (Object.prototype.toString.call(valor) === "[object Date]" && !isNaN(valor.getTime())) {
+    return valor;
+  }
+
+  const d = new Date(valor);
+  if (isNaN(d.getTime())) {
+    return null;
+  }
+
+  return d;
+}
+
+function serializarListaInforme_(lista) {
+  return lista.map(function (obj) {
+    const out = {};
+
+    Object.keys(obj).forEach(function (key) {
+      const valor = obj[key];
+
+      if (Object.prototype.toString.call(valor) === "[object Date]" && !isNaN(valor.getTime())) {
+        out[key] = fechaInforme_(valor);
+      } else {
+        out[key] = valor;
+      }
+    });
+
+    return out;
+  });
+}
+
+function fechaInforme_(fecha) {
+  return Utilities.formatDate(
+    fecha,
+    Session.getScriptTimeZone() || "America/Argentina/Buenos_Aires",
+    "yyyy-MM-dd HH:mm:ss"
+  );
+}
