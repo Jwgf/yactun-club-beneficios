@@ -1,5 +1,6 @@
-﻿const LS_CLIENTE_ID = "yactun_cliente_id";
+const LS_CLIENTE_ID = "yactun_cliente_id";
 const LS_CLIENTE_CODIGO = "yactun_cliente_codigo";
+const LS_CONFIG = "yactun_config";
 
 const API_URL = YACTUN_CONFIG.API_URL;
 
@@ -24,8 +25,8 @@ const actualizarBtn = document.getElementById("actualizarBtn");
 const credencialMsg = document.getElementById("credencialMsg");
 
 let clienteActual = null;
-let configActual = {
-  meta: 5,
+let configActual = cargarConfigLocal() || {
+  meta: null,
   premio: "250 g de mix especial"
 };
 
@@ -33,7 +34,9 @@ document.addEventListener("DOMContentLoaded", iniciar);
 registrarBtn.addEventListener("click", registrarCliente);
 actualizarBtn.addEventListener("click", actualizarCliente);
 
-function iniciar() {
+async function iniciar() {
+  await cargarConfigInicial();
+
   const clienteId = localStorage.getItem(LS_CLIENTE_ID);
 
   if (clienteId) {
@@ -99,6 +102,43 @@ function jsonp(params) {
 
     document.body.appendChild(script);
   });
+}
+
+
+async function cargarConfigInicial() {
+  try {
+    const data = await jsonp({
+      action: "config"
+    });
+
+    if (data.ok && data.config) {
+      configActual = data.config;
+      guardarConfigLocal(configActual);
+    }
+  } catch (err) {
+    // Si no hay conexión, seguimos con config local si existe.
+  }
+}
+
+function guardarConfigLocal(config) {
+  try {
+    localStorage.setItem(LS_CONFIG, JSON.stringify(config || {}));
+  } catch (err) {
+    // No hacer nada.
+  }
+}
+
+function cargarConfigLocal() {
+  try {
+    const raw = localStorage.getItem(LS_CONFIG);
+    if (!raw) {
+      return null;
+    }
+
+    return JSON.parse(raw);
+  } catch (err) {
+    return null;
+  }
 }
 
 async function registrarCliente() {
@@ -204,12 +244,15 @@ function guardarClienteLocal(cliente) {
 }
 
 function renderCliente(cliente, config) {
-  configActual = config || configActual;
+  if (config) {
+    configActual = config;
+    guardarConfigLocal(configActual);
+  }
 
   saludoTxt.textContent = "Hola, " + cliente.nombre;
   codigoTxt.textContent = cliente.codigo;
   puntosTxt.textContent = cliente.puntosActuales;
-  metaTxt.textContent = configActual.meta || 5;
+  metaTxt.textContent = configActual.meta || "-";
 
   generarQR(cliente);
 
