@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --fondo: #fff3d8;
   --card: #ffffff;
   --texto: #3b2415;
@@ -271,3 +271,27 @@ button:disabled {
 .pin-text {
   -webkit-text-security: disc;
 }
+
+
+/* Ajuste compacto del encabezado cliente */
+.header-card {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.header-card .logo-wrap {
+  margin-bottom: 4px;
+}
+
+.header-card h1 {
+  display: none;
+}
+
+.header-card p {
+  margin-top: 4px;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
