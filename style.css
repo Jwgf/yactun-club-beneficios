@@ -273,34 +273,33 @@ button:disabled {
 }
 
 
-/* Ajuste final encabezado cliente compacto */
-.card:has(.logo-zorro),
-.hero:has(.logo-zorro),
-.header:has(.logo-zorro),
-.logo-zorro {
-  box-sizing: border-box;
+/* Ajuste compacto del encabezado cliente */
+.header-card {
+  padding-top: 14px;
+  padding-bottom: 14px;
 }
 
-.card:has(.logo-zorro),
-.hero:has(.logo-zorro),
-.header:has(.logo-zorro) {
-  min-height: 0 !important;
-  height: auto !important;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  align-items: center !important;
-  gap: 4px !important;
+.header-card .logo-wrap {
+  margin-bottom: 4px;
 }
 
+.header-card h1 {
+  display: none;
+}
+
+.header-card p {
+  margin-top: 4px;
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+
+/* Ajuste compacto encabezado cliente v2 */
 .logo-zorro {
-  width: 92% !important;
-  max-width: 520px !important;
-  height: auto !important;
-  display: block !important;
-  margin: 0 auto 2px auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 4px !important;
 }
 
 .logo-zorro + h1,
@@ -310,11 +309,15 @@ button:disabled {
 
 .logo-zorro + h1 + p,
 .logo-zorro ~ p {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.1 !important;
-  font-size: 1.12rem !important;
+  margin-top: 4px !important;
+  margin-bottom: 0 !important;
+  font-size: 1rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.03em !important;
+  letter-spacing: 0.04em !important;
+}
+
+.card:has(.logo-zorro) {
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
 }
 
