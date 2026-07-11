@@ -38,9 +38,11 @@ async function iniciar() {
   await cargarConfigInicial();
 
   const clienteId = localStorage.getItem(LS_CLIENTE_ID);
+  const clienteCodigo = localStorage.getItem(LS_CLIENTE_CODIGO);
+  const refCliente = clienteId || clienteCodigo;
 
-  if (clienteId) {
-    consultarCliente(clienteId);
+  if (refCliente) {
+    consultarCliente(refCliente);
   } else {
     mostrarRegistro();
   }
@@ -191,10 +193,8 @@ async function consultarCliente(ref) {
     });
 
     if (!data.ok) {
-      localStorage.removeItem(LS_CLIENTE_ID);
-      localStorage.removeItem(LS_CLIENTE_CODIGO);
       mostrarRegistro();
-      setMsg(registroMsg, "No encontramos tu registro. CargÃ¡ tus datos nuevamente.", "error");
+      setMsg(registroMsg, "No pudimos recuperar tu tarjeta en este momento. Cerrá y volvé a abrir la app.", "error");
       return;
     }
 
